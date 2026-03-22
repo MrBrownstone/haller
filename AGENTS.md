@@ -6,4 +6,9 @@ This version has breaking changes — APIs, conventions, and file structure may 
 # Package manager
 
 Use `pnpm` for this repository. Do not use `npm` for scripts, installs, or lockfile updates.
+
+# Project context
+
+Read `CHANGELOG.md` before continuing implementation so you have the latest project context and completed work.
+Update `CHANGELOG.md` in grouped summaries when work is complete, typically before commits, not after every small change. Only do that step when the user asks for it.
 <!-- END:nextjs-agent-rules -->
