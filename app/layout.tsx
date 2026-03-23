@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const geistSans = localFont({
   src: "./fonts/Geist-Variable.woff2",
@@ -21,9 +18,12 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Nomarys | Gestion de Multas",
+  title: {
+    default: "Nomarys | Gestion de multas",
+    template: "%s | Nomarys",
+  },
   description:
-    "Modulo operativo para consultas, casos, infracciones, documentos y escritos dentro del ecosistema Nomarys.",
+    "Inicia tu consulta por multas o infracciones, completa tus datos y recibe una referencia para el seguimiento.",
 };
 
 export default function RootLayout({
@@ -34,9 +34,15 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", geist.variable)}
+      className={cn(
+        "h-full",
+        "antialiased",
+        geistSans.variable,
+        geistMono.variable,
+        "font-sans",
+      )}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
 }

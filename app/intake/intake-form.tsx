@@ -15,15 +15,23 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { emptyIntakeFormState } from "@/lib/intake-form";
+import {
+  createIntakeFormState,
+  type IntakeFormValues,
+} from "@/lib/intake-form";
 import { createIntakeAction } from "@/app/intake/actions";
 
-export function IntakeForm() {
-  const [state, formAction] = useActionState(createIntakeAction, emptyIntakeFormState);
-  const safeState = state ?? emptyIntakeFormState;
+type IntakeFormProps = {
+  initialValues?: Partial<IntakeFormValues>;
+};
+
+export function IntakeForm({ initialValues }: IntakeFormProps) {
+  const initialState = createIntakeFormState(initialValues);
+  const [state, formAction] = useActionState(createIntakeAction, initialState);
+  const safeState = state ?? initialState;
 
   return (
-    <form action={formAction} className="space-y-6">
+    <form action={formAction} className="flex flex-col gap-6">
       {safeState.message ? (
         <div className="rounded-[1.4rem] border border-destructive/20 bg-destructive/8 px-4 py-3 text-sm text-destructive">
           {safeState.message}
@@ -36,8 +44,9 @@ export function IntakeForm() {
           <Input
             id="fullName"
             name="fullName"
-            placeholder="Como figura en tu DNI"
+            placeholder="Como figura en su DNI"
             defaultValue={safeState.values.fullName}
+            className="h-12 rounded-[1.2rem] px-4"
             required
             aria-invalid={Boolean(safeState.fieldErrors.fullName)}
           />
@@ -51,6 +60,7 @@ export function IntakeForm() {
             inputMode="numeric"
             placeholder="Solo numeros"
             defaultValue={safeState.values.dni}
+            className="h-12 rounded-[1.2rem] px-4"
             required
             aria-invalid={Boolean(safeState.fieldErrors.dni)}
           />
@@ -66,6 +76,7 @@ export function IntakeForm() {
             type="email"
             placeholder="tu@email.com"
             defaultValue={safeState.values.email}
+            className="h-12 rounded-[1.2rem] px-4"
             required
             aria-invalid={Boolean(safeState.fieldErrors.email)}
           />
@@ -79,6 +90,7 @@ export function IntakeForm() {
             type="tel"
             placeholder="+54 9 11 ..."
             defaultValue={safeState.values.phone}
+            className="h-12 rounded-[1.2rem] px-4"
             required
             aria-invalid={Boolean(safeState.fieldErrors.phone)}
           />
@@ -93,6 +105,7 @@ export function IntakeForm() {
             name="vehiclePlate"
             placeholder="AB123CD o AAA123"
             defaultValue={safeState.values.vehiclePlate}
+            className="h-12 rounded-[1.2rem] px-4"
             required
             aria-invalid={Boolean(safeState.fieldErrors.vehiclePlate)}
           />
@@ -105,6 +118,7 @@ export function IntakeForm() {
             name="jurisdiction"
             placeholder="Provincia, municipio o juzgado"
             defaultValue={safeState.values.jurisdiction}
+            className="h-12 rounded-[1.2rem] px-4"
             required
             aria-invalid={Boolean(safeState.fieldErrors.jurisdiction)}
           />
@@ -113,16 +127,15 @@ export function IntakeForm() {
 
       <FormField
         error={safeState.fieldErrors.summary}
-        description="Inclui fechas, notificaciones, montos o cualquier dato que nos ayude a revisar el tema."
+        description="Campo opcional. Puede incluir fechas, notificaciones, montos o cualquier dato que ayude a comprender el caso."
       >
-        <FieldLabel htmlFor="summary">Contanos que paso</FieldLabel>
+        <FieldLabel htmlFor="summary">Informacion adicional (opcional)</FieldLabel>
         <Textarea
           id="summary"
           name="summary"
-          placeholder="Ejemplo: me llego una multa por exceso de velocidad en ruta 2, no estaba manejando ese dia..."
+          placeholder="Ejemplo: recibi una multa por exceso de velocidad y deseo revisar la situacion para definir como continuar."
           defaultValue={safeState.values.summary}
           className="min-h-36 rounded-[1.4rem] px-4 py-3"
-          required
           aria-invalid={Boolean(safeState.fieldErrors.summary)}
         />
       </FormField>
@@ -139,19 +152,19 @@ export function IntakeForm() {
           />
           <FieldContent>
             <span className="text-sm font-medium text-foreground">
-              Tengo documentacion disponible
+              Dispongo de documentacion
             </span>
             <FieldDescription className="text-sm">
-              Subir archivos sera opcional en el siguiente paso. Por ahora solo
-              indicamos si ya contas con fotos, cedula, DNI o notificaciones.
+              Si ya dispone de fotos, cedula, DNI o notificaciones, puede
+              indicarlo desde este primer envio.
             </FieldDescription>
           </FieldContent>
         </FieldLabel>
       </Field>
 
       <div className="flex flex-col gap-3 rounded-[1.6rem] border border-primary/15 bg-[linear-gradient(180deg,rgba(249,245,240,0.94),rgba(255,255,255,0.92))] p-5">
-        <p className="text-sm text-muted-foreground">
-          No necesitas crear una cuenta para enviar tu consulta inicial.
+        <p className="text-sm leading-6 text-muted-foreground">
+          No necesita crear una cuenta para enviar esta consulta inicial.
         </p>
         <SubmitButton />
       </div>
@@ -169,7 +182,7 @@ function SubmitButton() {
       className="h-12 w-full rounded-full px-6 sm:w-fit"
       disabled={pending}
     >
-      {pending ? "Creando intake..." : "Enviar intake"}
+      {pending ? "Enviando consulta..." : "Enviar formulario"}
     </Button>
   );
 }

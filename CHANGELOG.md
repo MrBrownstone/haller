@@ -18,10 +18,15 @@ Add entries in grouped summaries for completed work, typically before commits, n
 - Initialized real shadcn/ui in the repo and migrated the current shared primitives onto shadcn-managed components.
 - Added shadcn field primitives and migrated the intake form to the official field composition pattern.
 - Restored the custom warm visual system on top of shadcn so the homepage and intake flow preserve the intended layout and feel.
+- Reworked the public experience from a roadmap-style page into an actual intake-first product flow.
+- Simplified the landing page to a single, direct submission path with the intake form embedded on `/`.
+- Rewrote the public-facing copy into a more formal tone.
+- Made the additional information textarea optional.
+- Added an English technical roadmap at `docs/technical-roadmap.md` based on the original functional roadmap and marked completed delivery status from the beginning of the project.
 
 ### Current state
 
-- `/` is the polished landing page for the module.
+- `/` is now the primary public intake page and the simplest way to submit a consultation.
 - `/intake` lets a user create an intake without creating an account.
 - `/intake/success/[publicId]` shows the intake confirmation state.
 - `/admin/intakes` shows the internal intake inbox.
@@ -34,6 +39,7 @@ Add entries in grouped summaries for completed work, typically before commits, n
 - Real shadcn/ui is now the component foundation, but visual styling remains project-owned.
 - No user accounts in this phase.
 - Local SQLite first; evaluate a later move only if the workflow proves out.
+- The landing page should optimize for a single straightforward path, not multiple equivalent CTAs.
 
 ### Suggested next steps
 

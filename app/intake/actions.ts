@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import {
-  emptyIntakeFormState,
   readIntakeFormValues,
   validateIntakeFormValues,
   type IntakeFormState,
@@ -20,7 +19,7 @@ export async function createIntakeAction(
   if (Object.keys(fieldErrors).length > 0) {
     return {
       status: "error",
-      message: "Revisa los campos marcados y volve a intentar.",
+      message: "Revise los campos marcados y vuelva a intentarlo.",
       fieldErrors,
       values,
     } satisfies IntakeFormState;
@@ -31,5 +30,3 @@ export async function createIntakeAction(
   revalidatePath("/admin/intakes");
   redirect(`/intake/success/${intake.publicId}`);
 }
-
-export const initialIntakeFormState = emptyIntakeFormState;

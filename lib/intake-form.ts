@@ -27,21 +27,37 @@ export type IntakeFormState = {
   values: IntakeFormValues;
 };
 
+const emptyIntakeFormValues: IntakeFormValues = {
+  fullName: "",
+  dni: "",
+  email: "",
+  phone: "",
+  vehiclePlate: "",
+  jurisdiction: "",
+  summary: "",
+  hasDocuments: false,
+};
+
 export const emptyIntakeFormState: IntakeFormState = {
   status: "idle",
   message: null,
   fieldErrors: {},
-  values: {
-    fullName: "",
-    dni: "",
-    email: "",
-    phone: "",
-    vehiclePlate: "",
-    jurisdiction: "",
-    summary: "",
-    hasDocuments: false,
-  },
+  values: emptyIntakeFormValues,
 };
+
+export function createIntakeFormState(
+  initialValues: Partial<IntakeFormValues> = {},
+): IntakeFormState {
+  return {
+    status: "idle",
+    message: null,
+    fieldErrors: {},
+    values: {
+      ...emptyIntakeFormValues,
+      ...initialValues,
+    },
+  };
+}
 
 export function readIntakeFormValues(formData: FormData): IntakeFormValues {
   return {
@@ -62,31 +78,31 @@ export function validateIntakeFormValues(
   const errors: IntakeFieldErrors = {};
 
   if (values.fullName.length < 3) {
-    errors.fullName = "Ingresa nombre y apellido.";
+    errors.fullName = "Ingrese nombre y apellido.";
   }
 
   if (values.dni.length < 7 || values.dni.length > 10) {
-    errors.dni = "Ingresa un DNI valido.";
+    errors.dni = "Ingrese un DNI valido.";
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-    errors.email = "Ingresa un email valido.";
+    errors.email = "Ingrese un email valido.";
   }
 
   if (digitsOnly(values.phone).length < 8) {
-    errors.phone = "Ingresa un telefono o WhatsApp valido.";
+    errors.phone = "Ingrese un telefono o WhatsApp valido.";
   }
 
   if (!isValidVehiclePlate(values.vehiclePlate)) {
-    errors.vehiclePlate = "Ingresa una patente valida.";
+    errors.vehiclePlate = "Ingrese una patente valida.";
   }
 
   if (values.jurisdiction.length < 2) {
-    errors.jurisdiction = "Indica la jurisdiccion.";
+    errors.jurisdiction = "Indique la jurisdiccion.";
   }
 
-  if (values.summary.length < 20) {
-    errors.summary = "Contanos un poco mas sobre la infraccion o consulta.";
+  if (values.summary.length > 0 && values.summary.length < 20) {
+    errors.summary = "Describa con mayor detalle la infraccion o consulta.";
   }
 
   if (values.summary.length > 3000) {
