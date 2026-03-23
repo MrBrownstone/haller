@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -120,12 +120,9 @@ export default function IntakePage() {
                 Ya queda preparada una pagina interna para revisar los intakes
                 cargados y validar el flujo extremo a extremo.
               </p>
-              <Link
-                href="/admin/intakes"
-                className={buttonVariants({ variant: "outline" })}
-              >
-                Ver bandeja interna
-              </Link>
+              <Button asChild variant="outline">
+                <Link href="/admin/intakes">Ver bandeja interna</Link>
+              </Button>
             </CardContent>
           </Card>
         </div>

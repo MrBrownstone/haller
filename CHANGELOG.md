@@ -3,6 +3,45 @@
 This file is a lightweight project context log for future work, not a release log.
 Add entries in grouped summaries for completed work, typically before commits, not after every small change. Update it when the user asks for that step.
 
+## 2026-03-23
+
+### Completed
+
+- Built the first real intake flow as the phase 0/1 starting point.
+- Added a public intake form and submission flow backed by local SQLite.
+- Added a success page for completed intake submissions.
+- Added an internal intake inbox at `/admin/intakes` for local review.
+- Chose `intake` as the initial domain entity and reserved `case` for a later review/promote step.
+- Set the initial intake status to `pending_review`.
+- Kept document handling optional for this phase and captured whether documentation is available.
+- Standardized internal route naming in English by renaming the old internal route to `/admin/intakes`.
+- Initialized real shadcn/ui in the repo and migrated the current shared primitives onto shadcn-managed components.
+- Added shadcn field primitives and migrated the intake form to the official field composition pattern.
+- Restored the custom warm visual system on top of shadcn so the homepage and intake flow preserve the intended layout and feel.
+
+### Current state
+
+- `/` is the polished landing page for the module.
+- `/intake` lets a user create an intake without creating an account.
+- `/intake/success/[publicId]` shows the intake confirmation state.
+- `/admin/intakes` shows the internal intake inbox.
+- Data is stored locally in SQLite and the database file is created automatically on first write.
+
+### Important decisions
+
+- Code and route naming stay in English.
+- User-facing copy can remain in Spanish for now.
+- Real shadcn/ui is now the component foundation, but visual styling remains project-owned.
+- No user accounts in this phase.
+- Local SQLite first; evaluate a later move only if the workflow proves out.
+
+### Suggested next steps
+
+- Add the internal review action that promotes an intake into a case.
+- Define the first `case` entity and its relationship to `intake`.
+- Decide whether `jurisdiction` remains free text or becomes a curated list.
+- Add optional document upload as the next user-facing step after intake creation.
+
 ## 2026-03-22
 
 ### Completed

@@ -5,8 +5,15 @@ import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { emptyIntakeFormState } from "@/lib/intake-form";
 import { createIntakeAction } from "@/app/intake/actions";
@@ -23,12 +30,9 @@ export function IntakeForm() {
         </div>
       ) : null}
 
-      <div className="grid gap-5 md:grid-cols-2">
-        <Field
-          id="fullName"
-          label="Nombre y apellido"
-          error={safeState.fieldErrors.fullName}
-        >
+      <FieldGroup className="grid md:grid-cols-2">
+        <FormField error={safeState.fieldErrors.fullName}>
+          <FieldLabel htmlFor="fullName">Nombre y apellido</FieldLabel>
           <Input
             id="fullName"
             name="fullName"
@@ -37,9 +41,10 @@ export function IntakeForm() {
             required
             aria-invalid={Boolean(safeState.fieldErrors.fullName)}
           />
-        </Field>
+        </FormField>
 
-        <Field id="dni" label="DNI" error={safeState.fieldErrors.dni}>
+        <FormField error={safeState.fieldErrors.dni}>
+          <FieldLabel htmlFor="dni">DNI</FieldLabel>
           <Input
             id="dni"
             name="dni"
@@ -49,11 +54,12 @@ export function IntakeForm() {
             required
             aria-invalid={Boolean(safeState.fieldErrors.dni)}
           />
-        </Field>
-      </div>
+        </FormField>
+      </FieldGroup>
 
-      <div className="grid gap-5 md:grid-cols-2">
-        <Field id="email" label="Email" error={safeState.fieldErrors.email}>
+      <FieldGroup className="grid md:grid-cols-2">
+        <FormField error={safeState.fieldErrors.email}>
+          <FieldLabel htmlFor="email">Email</FieldLabel>
           <Input
             id="email"
             name="email"
@@ -63,13 +69,10 @@ export function IntakeForm() {
             required
             aria-invalid={Boolean(safeState.fieldErrors.email)}
           />
-        </Field>
+        </FormField>
 
-        <Field
-          id="phone"
-          label="Telefono o WhatsApp"
-          error={safeState.fieldErrors.phone}
-        >
+        <FormField error={safeState.fieldErrors.phone}>
+          <FieldLabel htmlFor="phone">Telefono o WhatsApp</FieldLabel>
           <Input
             id="phone"
             name="phone"
@@ -79,15 +82,12 @@ export function IntakeForm() {
             required
             aria-invalid={Boolean(safeState.fieldErrors.phone)}
           />
-        </Field>
-      </div>
+        </FormField>
+      </FieldGroup>
 
-      <div className="grid gap-5 md:grid-cols-2">
-        <Field
-          id="vehiclePlate"
-          label="Patente"
-          error={safeState.fieldErrors.vehiclePlate}
-        >
+      <FieldGroup className="grid md:grid-cols-2">
+        <FormField error={safeState.fieldErrors.vehiclePlate}>
+          <FieldLabel htmlFor="vehiclePlate">Patente</FieldLabel>
           <Input
             id="vehiclePlate"
             name="vehiclePlate"
@@ -96,13 +96,10 @@ export function IntakeForm() {
             required
             aria-invalid={Boolean(safeState.fieldErrors.vehiclePlate)}
           />
-        </Field>
+        </FormField>
 
-        <Field
-          id="jurisdiction"
-          label="Jurisdiccion"
-          error={safeState.fieldErrors.jurisdiction}
-        >
+        <FormField error={safeState.fieldErrors.jurisdiction}>
+          <FieldLabel htmlFor="jurisdiction">Jurisdiccion</FieldLabel>
           <Input
             id="jurisdiction"
             name="jurisdiction"
@@ -111,46 +108,46 @@ export function IntakeForm() {
             required
             aria-invalid={Boolean(safeState.fieldErrors.jurisdiction)}
           />
-        </Field>
-      </div>
+        </FormField>
+      </FieldGroup>
 
-      <Field
-        id="summary"
-        label="Contanos que paso"
+      <FormField
         error={safeState.fieldErrors.summary}
-        hint="Inclui fechas, notificaciones, montos o cualquier dato que nos ayude a revisar el tema."
+        description="Inclui fechas, notificaciones, montos o cualquier dato que nos ayude a revisar el tema."
       >
+        <FieldLabel htmlFor="summary">Contanos que paso</FieldLabel>
         <Textarea
           id="summary"
           name="summary"
           placeholder="Ejemplo: me llego una multa por exceso de velocidad en ruta 2, no estaba manejando ese dia..."
           defaultValue={safeState.values.summary}
+          className="min-h-36 rounded-[1.4rem] px-4 py-3"
           required
           aria-invalid={Boolean(safeState.fieldErrors.summary)}
         />
-      </Field>
+      </FormField>
 
-      <div className="rounded-[1.4rem] border border-border/80 bg-secondary/60 p-4">
-        <label
-          htmlFor="hasDocuments"
-          className="flex items-start gap-3 text-sm text-foreground"
-        >
+      <Field
+        orientation="horizontal"
+        className="rounded-[1.4rem] border border-border/80 bg-secondary/60 p-4"
+      >
+        <FieldLabel htmlFor="hasDocuments" className="gap-3">
           <Checkbox
             id="hasDocuments"
             name="hasDocuments"
             defaultChecked={safeState.values.hasDocuments}
           />
-          <span className="space-y-1">
-            <span className="block font-medium">
+          <FieldContent>
+            <span className="text-sm font-medium text-foreground">
               Tengo documentacion disponible
             </span>
-            <span className="block text-muted-foreground">
+            <FieldDescription className="text-sm">
               Subir archivos sera opcional en el siguiente paso. Por ahora solo
               indicamos si ya contas con fotos, cedula, DNI o notificaciones.
-            </span>
-          </span>
-        </label>
-      </div>
+            </FieldDescription>
+          </FieldContent>
+        </FieldLabel>
+      </Field>
 
       <div className="flex flex-col gap-3 rounded-[1.6rem] border border-primary/15 bg-[linear-gradient(180deg,rgba(249,245,240,0.94),rgba(255,255,255,0.92))] p-5">
         <p className="text-sm text-muted-foreground">
@@ -166,30 +163,29 @@ function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" size="lg" className="w-full sm:w-fit" disabled={pending}>
+    <Button
+      type="submit"
+      size="lg"
+      className="h-12 w-full rounded-full px-6 sm:w-fit"
+      disabled={pending}
+    >
       {pending ? "Creando intake..." : "Enviar intake"}
     </Button>
   );
 }
 
-type FieldProps = {
-  id: string;
-  label: string;
+type FormFieldProps = {
   error?: string;
-  hint?: string;
+  description?: string;
   children: ReactNode;
 };
 
-function Field({ id, label, error, hint, children }: FieldProps) {
+function FormField({ error, description, children }: FormFieldProps) {
   return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>{label}</Label>
+    <Field data-invalid={Boolean(error)} className="gap-2">
       {children}
-      {error ? (
-        <p className="text-sm text-destructive">{error}</p>
-      ) : hint ? (
-        <p className="text-sm text-muted-foreground">{hint}</p>
-      ) : null}
-    </div>
+      {description ? <FieldDescription>{description}</FieldDescription> : null}
+      <FieldError>{error}</FieldError>
+    </Field>
   );
 }

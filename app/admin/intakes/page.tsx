@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -40,12 +40,9 @@ export default function IntakeInboxPage() {
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/intake"
-              className={buttonVariants({ size: "lg", variant: "outline" })}
-            >
-              Abrir formulario publico
-            </Link>
+            <Button asChild size="lg" variant="outline" className="rounded-full px-6">
+              <Link href="/intake">Abrir formulario publico</Link>
+            </Button>
           </div>
         </div>
 

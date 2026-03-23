@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -54,15 +54,17 @@ export default async function IntakeSuccessPage({
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Link href="/intake" className={buttonVariants({ size: "lg" })}>
-              Cargar otro intake
-            </Link>
-            <Link
-              href="/"
-              className={buttonVariants({ size: "lg", variant: "outline" })}
+            <Button asChild size="lg" className="rounded-full px-6">
+              <Link href="/intake">Cargar otro intake</Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="rounded-full px-6"
             >
-              Volver al inicio
-            </Link>
+              <Link href="/">Volver al inicio</Link>
+            </Button>
           </div>
         </CardContent>
       </Card>

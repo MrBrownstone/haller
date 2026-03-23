@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -200,18 +200,17 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/intake"
-                  className={buttonVariants({ size: "lg" })}
+                <Button asChild size="lg" className="h-12 rounded-full px-6">
+                  <Link href="/intake">Crear intake</Link>
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="h-12 rounded-full px-6"
                 >
-                  Crear intake
-                </Link>
-                <a
-                  href="#fases"
-                  className={buttonVariants({ size: "lg", variant: "outline" })}
-                >
-                  Revisar fases sugeridas
-                </a>
+                  <a href="#fases">Revisar fases sugeridas</a>
+                </Button>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
