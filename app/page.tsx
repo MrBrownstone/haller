@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -13,7 +14,7 @@ const capabilityGroups = [
   {
     title: "Ingreso y apertura",
     description:
-      "El sistema recibe consultas, valida datos basicos y abre el caso con la informacion minima necesaria.",
+      "El sistema recibe consultas, valida datos basicos y abre el intake con la informacion minima necesaria.",
     items: ["C1 Ingreso de datos", "C2 Gestion de casos", "C6 Ingesta documental"],
   },
   {
@@ -38,7 +39,7 @@ const capabilityGroups = [
 const processSteps = [
   "El usuario inicia una consulta.",
   "El sistema solicita datos minimos.",
-  "Se crea un caso en el sistema.",
+  "Se crea un intake en el sistema.",
   "Administrador o asistente revisan infracciones.",
   "Se define el presupuesto.",
   "El usuario acepta o rechaza.",
@@ -192,18 +193,19 @@ export default function Home() {
                 </h1>
                 <p className="max-w-3xl text-lg leading-8 text-muted-foreground sm:text-xl">
                   El roadmap define un modulo separado, pero claramente alineado
-                  al universo visual y operativo de Nomarys: casos, infracciones,
-                  documentos, estrategia y escritos dentro de un flujo controlado.
+                  al universo visual y operativo de Nomarys: intakes,
+                  infracciones, documentos, estrategia y escritos dentro de un
+                  flujo controlado.
                 </p>
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row">
-                <a
-                  href="#roadmap"
+                <Link
+                  href="/intake"
                   className={buttonVariants({ size: "lg" })}
                 >
-                  Ver roadmap del modulo
-                </a>
+                  Crear intake
+                </Link>
                 <a
                   href="#fases"
                   className={buttonVariants({ size: "lg", variant: "outline" })}
@@ -242,7 +244,7 @@ export default function Home() {
                 </CardHeader>
                 <CardContent className="space-y-4 pt-6">
                   {[
-                    "C1 para abrir casos rapido con dominio y DNI.",
+                    "C1 para capturar intakes rapido con dominio y DNI.",
                     "C2 para ordenar estados, datos y trazabilidad.",
                     "C6 para adjuntar documentacion desde el inicio.",
                     "C9 como automatizacion prioritaria una vez estabilizado el flujo.",
