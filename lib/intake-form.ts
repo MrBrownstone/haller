@@ -2,9 +2,28 @@ export const INTAKE_INITIAL_STATUS = "pending_review" as const;
 
 export const intakeStatusLabels = {
   pending_review: "Pendiente de revision",
+  awaiting_documents: "Esperando documentacion",
+  under_review: "En revision",
+  ready_for_case: "Listo para promover",
+  rejected: "Descartado",
 } as const;
 
 export type IntakeStatus = keyof typeof intakeStatusLabels;
+
+export const intakeStatusOrder = [
+  "pending_review",
+  "awaiting_documents",
+  "under_review",
+  "ready_for_case",
+  "rejected",
+] as const satisfies IntakeStatus[];
+
+export const intakeDocumentSourceLabels = {
+  admin: "Administracion",
+  customer: "Cliente",
+} as const;
+
+export type IntakeDocumentSource = keyof typeof intakeDocumentSourceLabels;
 
 export type IntakeFormValues = {
   fullName: string;

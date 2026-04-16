@@ -3,6 +3,69 @@
 This file is a lightweight project context log for future work, not a release log.
 Add entries in grouped summaries for completed work, typically before commits, not after every small change. Update it when the user asks for that step.
 
+## 2026-04-15
+
+### Completed
+
+- Turned `/admin/intakes` from a read-only inbox into a navigable review flow with clickable intake rows.
+- Added an intake detail route at `/admin/intakes/[publicId]` with a dedicated loading state and not-found handling.
+- Expanded the intake workflow beyond `pending_review` by adding richer internal states:
+  - `awaiting_documents`
+  - `under_review`
+  - `ready_for_case`
+  - `rejected`
+- Added internal state transition actions directly on the intake detail page.
+- Introduced real intake document handling backed by local SQLite metadata plus local filesystem storage under `data/intake-documents/`.
+- Added document upload support for intake review, including:
+  - type validation
+  - size validation
+  - source tracking (`admin` vs `customer`)
+  - optional note metadata
+- Added document-serving routes so stored files can be viewed, downloaded, and printed from the admin flow.
+- Reworked the document management UI several times toward a simpler operational model:
+  - replaced the original side-panel style document browser
+  - removed the crowded action-row approach
+  - simplified the final table to clickable rows/file names for preview
+  - left only icon-only actions for download and delete
+- Moved document preview into a modal instead of a persistent embedded panel.
+- Simplified document preview behavior to the intended baseline:
+  - images render inline in the modal
+  - PDFs render in a plain frame
+  - unsupported formats fall back to open/download guidance
+- Added document deletion so admin review can remove uploaded files and keep intake metadata synchronized.
+- Added a print route for documents so the admin flow can trigger browser printing when needed.
+- Fixed multiple admin UI issues during the iteration:
+  - state help tooltips now render above the button stack instead of being covered
+  - the upload card was restructured so file selection and origin are separate rows
+  - origin selection now uses a two-option choice instead of a dropdown
+  - removed an invalid nested-button structure that caused a hydration warning in development
+
+### Current state
+
+- `/admin/intakes` is now an operational inbox plus entry point into per-intake review.
+- `/admin/intakes/[publicId]` acts as the internal review workspace for a single intake.
+- Intake review now supports actual status mutation, not just filtering by the original status.
+- Documents can now be uploaded, listed, previewed, downloaded, printed, and deleted from the admin flow.
+- Document preview is intentionally lightweight and opens in a modal rather than occupying permanent screen space.
+- Storage remains local-first:
+  - SQLite stores intake and document metadata
+  - the filesystem stores the actual uploaded files
+
+### Important decisions
+
+- Keep the first document storage strategy local and simple instead of introducing external object storage yet.
+- Treat `admin` and `customer` as document-source metadata now, even before a public upload flow exists.
+- Prefer a direct operational document table over a richer embedded document browser.
+- Use the table row and file name as the preview trigger, while keeping destructive and export actions explicit.
+- Keep preview behavior minimal and native-looking rather than trying to outbuild a full browser document viewer.
+
+### Suggested next steps
+
+- Define the first `case` entity and add the promote-from-intake path.
+- Decide whether intake state changes need an explicit audit trail or event log.
+- Decide whether customer-side upload should reuse this same document model as a follow-up step.
+- Evaluate whether local filesystem storage remains sufficient once multi-user or hosted environments are introduced.
+
 ## 2026-03-23
 
 ### Completed

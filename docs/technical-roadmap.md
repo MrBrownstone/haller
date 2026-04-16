@@ -33,6 +33,7 @@ Completed items are also struck through when useful, so the roadmap doubles as a
 - [x] ~~Public user intake flow exists~~
 - [x] ~~Dedicated success state with public reference exists~~
 - [x] ~~Internal local intake inbox exists at `/admin/intakes`~~
+- [x] ~~Internal intake detail review page exists at `/admin/intakes/[publicId]`~~
 - [x] ~~Homepage now acts as a direct intake-first entry point~~
 - [x] ~~Public flow has been simplified to one primary path~~
 - [x] ~~Public copy has been moved away from internal roadmap language~~
@@ -80,40 +81,42 @@ Goal: let an incoming user submit a consultation without creating an account, an
 Primary capability coverage:
 
 - [x] ~~C1 – Basic intake data entry~~
-- [~] C2 – Case management has only the intake-side baseline so far
-- [~] C6 – Document intake is represented only as a boolean availability signal so far
+- [~] C2 – Intake-side workflow now exists, but there is still no formal `case` entity
+- [~] C6 – Real intake document handling now exists, but later case-level document handling is still pending
 
 ### Phase 2 – Intake review and case promotion
 
 Goal: turn the current inbox into an actual operational review queue and introduce the first formal `case` record.
 
-- [ ] Add review actions on intakes
-- [ ] Support intake states beyond `pending_review`
+- [x] ~~Add review actions on intakes~~
+- [x] ~~Support intake states beyond `pending_review`~~
 - [ ] Add “promote intake to case”
-- [ ] Add “reject intake”
-- [ ] Add “request more information”
+- [x] ~~Add “reject intake”~~
+- [x] ~~Add “request more information”~~
 - [ ] Define the first `case` schema
 - [ ] Record the relationship between `intake` and `case`
 - [ ] Keep an audit trail of review decisions
 
 Primary capability coverage:
 
-- [ ] Finish the operational part of C2 – case management and workflow
+- [~] Finish the operational part of C2 – case management and workflow
 
 ### Phase 3 – Document intake and storage
 
 Goal: move from “documents available” to actual file handling.
 
-- [ ] Add upload support for intake documents
-- [ ] Define the first document storage strategy
-- [ ] Associate uploaded files with intakes and later cases
-- [ ] Add file metadata, type classification, and timestamps
-- [ ] Add basic validation for file count, type, and size
-- [ ] Show uploaded document presence in the internal inbox/review flow
+- [x] ~~Add upload support for intake documents~~
+- [x] ~~Define the first document storage strategy~~
+- [x] ~~Associate uploaded files with intakes~~
+- [ ] Associate uploaded files with later cases
+- [x] ~~Add file metadata, type classification, and timestamps~~
+- [x] ~~Add basic validation for file type and size~~
+- [x] ~~Show uploaded document presence in the internal inbox/review flow~~
+- [x] ~~Add internal document actions for preview, download, print, and delete~~
 
 Primary capability coverage:
 
-- [ ] Finish C6 – document intake and storage
+- [~] Finish C6 – document intake and storage
 
 ### Phase 4 – Infraction data model
 
@@ -217,22 +220,34 @@ Goal: add additional intake channels only after the core web workflow is stable.
   - optional additional information
   - whether documents are available
 - Public submissions create local SQLite rows in the `intakes` table.
+- Intake review now also stores local SQLite rows in `intake_documents` for uploaded files.
 - Success states expose a generated public reference in the `INT-YYYYMMDD-XXXX` format.
-- Internal review currently exists as a local inbox only; it does not yet mutate workflow state.
+- Internal review now includes:
+  - a dedicated per-intake review page
+  - status transitions on the intake itself
+  - local document upload and deletion
+  - document source metadata (`admin` or `customer`)
+  - modal-based preview for uploaded files
+- Uploaded file binaries are stored on the local filesystem under `data/intake-documents`.
+- The current document actions available internally are:
+  - preview
+  - download
+  - print
+  - delete
 
 ## Open decisions
 
 - Decide when `jurisdiction` becomes a curated list instead of free text.
 - Decide when the first hosted database migration should happen.
-- Decide the exact review workflow before introducing `case`.
-- Decide the first storage provider for uploaded files.
+- Decide the exact review-to-case promotion workflow before introducing `case`.
+- Decide when local file storage should be replaced by a hosted provider.
 - Decide how much of quote and strategy assistance should be rules-based before any AI is considered.
 
 ## Recommended next slice
 
 If development resumes from the current baseline, the next highest-value slice is:
 
-1. add review actions to `/admin/intakes`
-2. create the first `case` entity
-3. promote an approved intake into a case
-4. introduce actual document upload right after that
+1. create the first `case` entity
+2. promote an approved intake into a case
+3. add an audit trail for intake review decisions and document mutations
+4. decide whether customer-side upload should reuse the same document model

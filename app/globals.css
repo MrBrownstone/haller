@@ -22,7 +22,7 @@
   --accent-foreground: oklch(0.42 0.02 252);
   --destructive: oklch(0.56 0.22 25);
   --border: oklch(0.9 0.01 252);
-  --input: oklch(1 0 0);
+  --input: oklch(0.92 0.008 252);
   --ring: oklch(0.49 0.08 45 / 0.26);
   --radius: 0.75rem;
   --chart-1: oklch(0.49 0.08 45);
